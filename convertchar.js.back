@@ -1,0 +1,125 @@
+const cyrLowToHigh = function(lowChar){
+  var lowCode =  lowChar.charCodeAt(0);
+  var HighCode = lowCode-32;
+  return String.fromCharCode(HighCode);
+}
+const isRome = function(str){
+  str = (str==null)?"":str;
+  if(str.match(new RegExp('^[A-Za-z]*$'))){
+    return true;
+  }else{
+    return false;
+  }
+}
+const hasHighCase = function(str){
+  if(str.match(new RegExp('[A-Z]'))){
+    return true;
+  }else{
+    return false;
+  }
+}
+const simpleSearch = function(rome,convertTo,text){
+  for(var index=0;index<rome.length;index++){
+    if(text==rome[index]){
+      return convertTo[index];
+    }
+  }
+  return "text";
+}
+  
+const convert = function(rome,convertTo,inputText){ 
+  var currentPosition=0;
+  var convertedText="";
+  var highCaseFlag = false;
+  var targetChars="";
+  var testLoopNum=0;
+  var compareLength=0;
+  while(currentPosition < inputText.length-1){
+    console.log("testLoopNum="+testLoopNum.toString());//Debug
+    testLoopNum++;//Debug
+    var targetChar=inputText.substr(currentPosition+compareLength,1);
+    console.log("targetChar="+targetChar);//DebugLog
+    targetChars=targetChars+targetChar;
+    console.log("compareLength="+compareLength.toString());//DebugLog
+    console.log("targetChars="+targetChars);//DebugLog
+    console.log("currentPosition="+currentPosition.toString());//DebugLog
+
+    compareLength = targetChars.length;
+    if(compareLength>=5){
+      //targetCharがローマ字でなかった時の対応に誤りがある。
+      //targetCharがローマ字でなかった時は、その時点でのtargetCharsを変換したい。
+      currentPosition+=compareLength;
+      compareLength=0;
+      convertedText=convertedText+targetChars;
+      targetChars="";
+      continue;
+    }else if(hasHighCase(targetChars)){
+      targetChars=targetChars.toLowerCase();
+      highCaseFlag=true;
+    }
+    if(testLoopNum>=20){
+      //console.log(inputText.length);
+      //console.log(currentPosition);//Debug
+      //console.log(targetChars);//Debug
+      console.log("breaked by testPG");
+      break;//Debug
+    }
+    //以下、foreachを使うとbreakが使えないため、forで記述
+    if(!isRome(targetChar)){
+      console.log("I wanna convert\""+targetChars.slice(0,-1)+"\"");
+      addChar=simpleSearch(rome,convertTo,targetChars.slice(0,-1));
+      if(highCaseFlag===true){
+        addChar=cyrLowToHigh(addChar);
+      }
+      convertedText+=addChar+targetChars.slice(-1);
+      currentPosition+=compareLength;
+      targetChars="";
+      compareLength=0;
+    }
+    for (var index=0;index<rome.length;index++){
+      var roms=rome[index];
+      if(roms.substr(0,compareLength)===targetChars){
+        if(roms.length===compareLength){
+          console.log("hit!")//DebugLog
+          if(highCaseFlag===true){
+            addChar=cyrLowToHigh(convertTo[index]);
+            highCaseFlag=false;
+          }else{
+            addChar=convertTo[index];
+          }
+          convertedText=convertedText+addChar;
+          currentPosition+=compareLength;
+          compareLength=0;
+          targetChars="";
+        }else if(roms.length<compareLength){
+          console.log("エラー!");
+        }
+        break;
+      }
+    }
+  }
+  return convertedText;
+}
+    /*
+    rome.foreach(function(roms,index){
+      if(roms.substr(0,compareLength)===targetChars){
+        if(roms.length===compareLength){
+          if(highCaseFlag===true){
+            var addChar=cyrLowToHigh(convertTo[index]);
+            highCaseFlag=false;
+          }else{
+            var addChar=convertTo([index]);
+            currentPosition+=compareLength;
+            targetChars="";
+          }
+          convertedText=convertedText+addChar;
+        }else if(roms.length<compareLength){
+          console.log("エラー!");
+        }
+        break;
+      }
+    });
+  }
+  return convertedText;
+}
+*/

@@ -24,7 +24,8 @@ const isCyrillic = function(character){
   }
 }
 const hasUpperCase = function(str){
-  return str.match(new RegExp('[A-Z]'));
+  UpperCaseMatch = new RegExp("[A-Z]");
+  return UpperCaseMatch.test(str);
 }
 const cyrLowerToUpper = function(lowerChar){
   var lowerCode =  lowerChar.charCodeAt(0);
@@ -78,7 +79,7 @@ const difference = function(value1="",value2=""){
 const convert = function(rome,converTo,inputText){
   var currentPosition=0;
   var convertedText="";
-  var UpperCaseFlag=false;
+  var upperCaseFlag=false;
   var searchChars="";
   var searchChar;
   var testLoopNum=0;
@@ -102,9 +103,13 @@ const convert = function(rome,converTo,inputText){
     console.log("nextChar="+"\""+nextChar+"\"");//
     console.log("compareLength:"+compareLength);//debug
     var resultPartialMatchNext=holdPartialMatch(rome,cyrillic,searchChars+nextChar);
+    var resultPartialMatchNextOne=holdPartialMatch(rome,cyrillic,nextChar);
     var resultPartialMatch=holdPartialMatch(rome,cyrillic,searchChars);
     var resultSimpleSearch=simpleSearch(rome,cyrillic,searchChars);
     var resultSimpleSearchNext=simpleSearch(rome,cyrillic,searchChars+nextChar);
+    var upperCaseFlag=hasUpperCase(searchChars);
+    var upperCaseFlagNext=hasUpperCase(nextChar);
+    console.log("upperCaseFlag="+upperCaseFlag);
     if(isCyrillic(searchChar)&&compareLength===1){
       convertedText=convertedText+searchChar;
       currentPosition++;
@@ -114,6 +119,10 @@ const convert = function(rome,converTo,inputText){
     }
     if(isCyrillic(resultPartialMatch)){
       console.log("mode1");//debug
+      if(upperCaseFlag){
+        resultPartialMatch=cyrLowerToUpper(resultPartialMatch);
+        upperCaseFlag=false;
+      }
       convertedText=convertedText+resultPartialMatch;
       currentPosition+=compareLength;
       compareLength=0;
@@ -139,8 +148,8 @@ const convert = function(rome,converTo,inputText){
         console.log("--------");//debug
       }else{
         console.log("mode3-2");//debug
-        convertedText=convertedText+searchChars;
-        currentPosition+=compareLength;
+        convertedText=convertedText+searchChars.slice(0,1);
+        currentPosition++;
         compareLength=0;
         searchChars="";
         console.log("--------");//debug
@@ -177,7 +186,13 @@ const forcedConvert=function(rome,cyrillic,inputText){
     var resultPartialMatchNext=holdPartialMatch(rome,cyrillic,searchChars+nextChar);
     var resultPartialMatch=holdPartialMatch(rome,cyrillic,searchChars);
     var resultSimpleSearch=simpleSearch(rome,cyrillic,searchChars);
+    upperCaseFlag=hasUpperCase(searchChars);
+    console.log("upperCaseFlag="+upperCaseFlag);
     if(nextChar==="" || resultPartialMatchNext===false){
+      if(upperCaseFlag){
+        resultSimpleSearch=cyrLowerToUpper(resultSimpleSearch);
+        upperCaseFlag=false;
+      }
       convertedText=convertedText+resultSimpleSearch;
       currentPosition+=compareLength;
       searchChars="";

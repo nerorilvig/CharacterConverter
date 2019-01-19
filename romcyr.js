@@ -55,19 +55,21 @@ $(function(){
   });
   $('#input').on('input',function(){
     newValue=$("#input").val();
-    var inputChar=difference(oldValue,newValue);
-    if(inputChar===" "&&spaceCount==0){
-      $("#input").val($("#input").val().slice(0,-1));
-      spaceCount++;
-      var convertedText=forcedConvert(rome,cyrillic,$('#input').val());
-    }else if(spaceCount>0){
-      spaceCount=0;
-      convertedText=$('#input').val();
-    }else{
-      var convertedText=convert(rome,cyrillic,$('#input').val());
+    if(newValue.length >= oldValue.length){
+      var inputChar=difference(oldValue,newValue);
+      if(inputChar===" "&&spaceCount==0){
+        $("#input").val($("#input").val().slice(0,-1));
+        spaceCount++;
+        var convertedText=forcedConvert(rome,cyrillic,$('#input').val());
+      }else if(spaceCount>0){
+        spaceCount=0;
+        convertedText=$('#input').val();
+      }else{
+        var convertedText=convert(rome,cyrillic,$('#input').val());
+      }
+      console.log('input:\"'+inputChar+'\"');
+      $('#input').val(convertedText);
     }
-    console.log('input:\"'+inputChar+'\"');
-    $('#input').val(convertedText);
   });
   /*
   $("#input").keydown(function(e){//eはイベント
@@ -94,3 +96,4 @@ $(function(){
   });
   */
 });
+

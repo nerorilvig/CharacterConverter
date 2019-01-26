@@ -28,7 +28,7 @@ const hasUpperCase = function(str){
   return UpperCaseMatch.test(str);
 }
 const cyrLowerToUpper = function(lowerChar){
-  var lowerCode =  lowerChar.charCodeAt(0);
+  var lowerCode = lowerChar.charCodeAt(0);
   var UpperCode = 0;
   var UpperChar = "";
   if (!isCyrillic(lowerChar)){

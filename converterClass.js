@@ -17,17 +17,17 @@ class Converter{
     return  romeMatch.test(str) && str!=="";
   }
   hasUpperCase(str){
-    upperCaseMatch = new RegExp("[A-Z]");
+    var upperCaseMatch = new RegExp("[A-Z]");
     return upperCaseMatch.test(str);
   }
   isDestination(character){//入力文字が変換先の文字かどうか判定するメソッド
-    if(!Object.prototype.toString.call(character)==="[object String]"&&character.length!==1){
+    if(Object.prototype.toString.call(character)!=="[object String]"&&character.length!==1){
       return false;
     }
     //以下は継承先のクラスでオーバーライド
   }
   lowerToUpper(lowerChar){ //変換先の文字を大文字に変換するメソッド
-    var lowerCode = lowerChar.charCode(0);
+    var lowerCode = lowerChar.charCodeAt(0);
     var UpperCode;
     var UpperChar;
     //以下は継承先のクラスでオーバーライド
@@ -57,44 +57,89 @@ class Converter{
   }
   /*補足:shch⇔щ,sh⇔ш,s⇔сという変換規則がある場合、sやshが入力された時点ではまだユーザーが変換したい文字が一意に決まらない。
   holdPartialMatchはそのような意図しない変換を防ぎつつ、入力文字列に対応する要素を変換元配列から探索するメソッドである。
-  なお、shやsのような文字列を変換したい場合、ユーザーがスペースキーを入力するとそこで変換確定するような仕様にしてある。*/
+  なお、shやsのような文字列を途中で変換したい場合、ユーザーがスペースキーを入力するとそこで手動で変換するような仕様にしてある。*/
+  recursiveSearch(inputString){
+    var convertedString=inputString;
+    if(this.isDestination(this.simpleSearch(inputString))||inputString.length===1){
+      convertedString=this.simpleSearch(inputString);
+    }else{
+      convertedString=this.recursiveSearch(inputString.slice(0,-1))+this.holdPartialMatch(inputString.substr(-1,1));
+    }
+    return convertedString;
+  }
   autoConvert(inputText){
+    this.convertedText="";
+    this.currentPosition=0;
     this.resetVal();
     while(this.currentPosition < inputText.length){
-      varsearchChar=inputText.substr(this.currentPosition+this.compareLength,1);
+      var searchChar=inputText.substr(this.currentPosition+this.compareLength,1);
       var nextChar=inputText.substr(this.currentPosition+this.compareLength+1,1);
-      this.compareLength=searchChar;
-      this.upperCaseFlag=this.hasUpperCase(searchString);
+      this.searchString=this.searchString+searchChar;
+      this.compareLength=this.searchString.length;
+      this.upperCaseFlag=this.hasUpperCase(this.searchString);
       var addString="";
-      var resultPartialMatch=holdPartialMatch(this.rome,this.destination,searchString);
-      var resultPartialMatchNext=holdPartialMatch(this.rome,this.destination,searchString+nextChar);
-      this.upperCaseFlag ? resultPartialMatch=this.lowerToUpper(resultPartialMatch);
-      this.upperCaseFlag ? resultPartialMatchNext=this.lowerToUpper(resultPartialMatchNext);
+      var resultSimpleSearch=this.simpleSearch(this.searchString);
+      var resultPartialMatch=this.holdPartialMatch(this.searchString);
+      var resultPartialMatchNext=this.holdPartialMatch(this.searchString+nextChar);
+      if(this.upperCaseFlag){
+        resultSimpleSearch=this.lowerToUpper(resultSimpleSearch);
+        resultPartialMatch=this.lowerToUpper(resultPartialMatch);
+        resultPartialMatchNext=this.lowerToUpper(resultPartialMatch);
+      }
       if(searchChar==="") return this.convertedText+resultPartialMatch; 
-      if(isDestination(searchChar)) this.convertedText=this.convertedText+searchChar;
-      if(resultPartialMatch===false&&this.isRome(nextChar)){
-        this.convertedText=this.convertedText+searchString+nextChar;
-        this.currentPosition+=(this.compareLength+1);
-        resetVal();
-        continue;
-      }
-      if(resultPartialMatch===false&&!this.isRome(nextChar)){
-        this.convertedText=this.convertedText+searchString.slice(0,1);
+      if(this.isDestination(searchChar)){
+        this.convertedText=this.convertedText+searchChar;
         this.currentPosition++;
-        resetVal();
+      }
+      if(resultPartialMatch===false&&!this.isRome(searchChar)){
+        this.convertedText=this.convertedText+this.searchString;
+        this.currentPosition+=(this.compareLength);
+        this.resetVal();
         continue;
       }
-      if(resultPartialMatch===searchString)continue;
+      if(resultPartialMatch===false&&this.isRome(searchChar)){
+        this.convertedText=this.convertedText+this.recursiveSearch(this.searchString);
+        this.currentPosition+=(this.compareLength);
+        this.resetVal();
+        continue;
+      }
+      if(!this.isDestination(nextChar)&&this.isDestination(this.holdPartialMatch(nextChar))){
+        this.convertedText=this.convertedText+resultSimpleSearch+this.holdPartialMatch(nextChar);
+        this.currentPosition+=(this.compareLength+1);
+        this.resetVal();
+        continue;
+      }
+      if(resultPartialMatch===this.searchString)continue;
       this.convertedText=this.convertedText+resultPartialMatch;
       this.currentPosition+=this.compareLength;
       this.resetVal();
     }
+    return this.convertedText;
   }
   manualConvert(){
+    this.currentPosition=0;
+    this.resetVal();
+    while(this.currentPosition < inputText.length){
+      var searchChar=inputText.substr(this.currentPosition+this.compareLength,1);
+      var nextChar=inputText.substr(this.currentPosition+this.compareLength+1,1);
+      this.searchString=this.searchString+searchChar;
+      this.compareLength=this.searchString.length;
+      this.upperCaseFlag=this.hasUpperCase(this.searchString);
+      var addString="";
+      var resultSimpleSearch=this.simpleSearch(this.searchString);
+      var resultPartialMatch=this.holdPartialMatch(this.searchString);
+      var resultPartialMatchNext=this.holdPartialMatch(this.searchString+nextChar);
+      if(this.upperCaseFlag){
+        resultPartialMatch=this.lowerToUpper(resultPartialMatch);
+        resultPartialMatchNext=this.lowerToUpper(resultPartialMatch);
+        resultSimpleSearch=this.lowerToUpper(resultSimpleSearch);
+      }
+    }
   }
 }
 
 //以下テスト記述。完成後にコメントアウトすること。
+/*
 testRomeArr=["and","at","a","q"];
 testDestinationArr=["&","@","1","?"];
 converter = new Converter("abc",testRomeArr,testDestinationArr);
@@ -108,3 +153,4 @@ console.log(converter.simpleSearch("q"));
 console.log(converter.simpleSearch("a"));
 console.log(converter.holdPartialMatch("a"));
 console.log(converter.holdPartialMatch("at"));
+*/

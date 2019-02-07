@@ -12,6 +12,11 @@ const difference = function(value1="",value2=""){
 //変数charConは各言語用のクラスのインスタンス
 //Languagesフォルダの各jsファイルを参照
 //htmlでhighlightTextareaプラグインを読み込み済み
+var upperCaseArr=new Array(charCon.converted.length);
+charCon.converted.forEach(function(val,index){
+  upperCaseArr[index]=charCon.lowerToUpper(val);
+});
+var highlightArr=charCon.converted.concat(upperCaseArr).concat(symbols);
 $(function(){
   var oldValue;
   var newValue;
@@ -19,6 +24,8 @@ $(function(){
   var enterCount=0;
   var position=0;
   var newPosition=0;
+  var highlightList=$('#input').highlighter("highlightArray",charCon.converted,symbols,upperCaseArr);
+  $('#input').highlighter("init");
   $('#input').on('focusin',function(){
     position=$(this).get(0).selectionStart;
   });
@@ -48,16 +55,12 @@ $(function(){
       $(this).val(convertedText);
       $(this).get(0).setSelectionRange(newPosition,newPosition);
     }
+    $(this).highlighter('highlightChar',highlightList);
+    $('#behindInput').scrollTop($(this).scrollTop());
     console.log('input:\"'+inputChar+'\"');
     console.log('position:\"'+position+'\"');
   });
-  $('#input').highlightTextarea({
-    words: [{
-      color: '#ADF0FF',
-      words: charCon.destination.concat(symbols)
-    }/*,{
-      color: '#FF00FF',
-      words: symbols
-    }*/]
+  $('#input').scroll(function(){
+    $('#behindInput').scrollTop($(this).scrollTop());
   });
 });

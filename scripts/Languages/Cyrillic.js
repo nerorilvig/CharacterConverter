@@ -1,16 +1,18 @@
 class Cyr extends Converter{
-  isDestination(character){
-    //if(Object.prototype.toString.call(character)!=="[object String]"&&character.length!==1)console.log("not char by isD");//debug
-    if(Object.prototype.toString.call(character)!=="[object String]"&&character.length!==1)return false;
-    var code=character.charCodeAt(0);
+  //変換に記号を使うのでisRomeもオーバーライドする
+  isRome(str=""){
+    var romeMatch = new RegExp("^[A-Za-z\\'\\^]*$");
+    return romeMatch;
+  }
+  isConverted(character){
+    if(Object.prototype.toString.call(character)!=="[object String]"&&character.length!==1)return false; var code=character.charCodeAt(0);
     return (code>=1040 && code<=1103)||code===1025||code===1105;
   }
   lowerToUpper(lowerChar){
-    //if(Object.prototype.toString.call(lowerChar)!=="[object String]")console.log("not String by ltou");//debug
     if(Object.prototype.toString.call(lowerChar)!=="[object String]")return false;
     var lowerCode = lowerChar.charCodeAt(0);
     var upperCode = 0;
-    if(!this.isDestination(lowerChar)) return lowerChar;
+    if(!this.isConverted(lowerChar)) return lowerChar;
     if(lowerCode===1105) return "Ё";
     return String.fromCharCode(lowerCode-32);
   }

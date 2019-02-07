@@ -1,10 +1,10 @@
 class Converter{
   //ローマ字の入力を別の言語の文字に返すための処理をまとめたクラス
   //対象言語毎のクラスにこのクラスを継承させる
-  constructor(romeArr,destinationArr){
+  constructor(romeArr,convertedArr){
     this.rome=romeArr;          //romeは変換表における変換元(ローマ字)を格納した配列
-    this.destination=destinationArr; //destinationは変換先(キリル字や かな文字を実装予定)を格納した配列
-    //holdPartialMatchを機能させるため、romeとdestinationの要素の順番に注意。
+    this.converted=convertedArr; //convertedは変換先(キリル字や かな文字を実装予定)を格納した配列
+    //holdPartialMatchを機能させるため、romeとconvertedの要素の順番に注意。
     //変換に必要なローマ字の文字数が多い程、若いインデックス番号を割り当てる事。
   }
   isRome(str=""){ //入力文字列がローマ字かどうか判定するメソッド。空文字や文字列型でない入力にはfalseを返す
@@ -15,7 +15,7 @@ class Converter{
     var upperCaseMatch = new RegExp("[A-Z]");
     return upperCaseMatch.test(str);
   }
-  isDestination(character){//入力文字が変換先の文字かどうか判定するメソッド
+  isConverted(character){//入力文字が変換先の文字かどうか判定するメソッド
     if(Object.prototype.toString.call(character)!=="[object String]"&&character.length!==1){
       return false;
     }
@@ -34,17 +34,13 @@ class Converter{
     for(var index=0;index<this.rome.length;index++){
       var isMatch=searchString===this.rome[index];
       if(isMatch){ 
-        result=this.destination[index];
+        result=this.converted[index];
         break;
       }
       result=inputString;
     }
     if(isMatch && upperCaseFlag) result = this.lowerToUpper(result);
     return result;
-  }
-  resetVal(){
-    this.searchString="";
-    this.compareLength=0;
   }
   holdPartialMatch(inputString){
     var upperCaseFlag=this.hasUpperCase(inputString);
@@ -53,16 +49,14 @@ class Converter{
     for(var index=0;index<this.rome.length;index++){
       var isMatch=searchString===this.rome[index];
       var isPartialMatch=searchString===this.rome[index].substr(0,searchString.length);
-      if(isMatch){
-        result=this.destination[index];
-        break;
-      }else if(isPartialMatch){
-        result=inputString;
+      if(isMatch||isPartialMatch){
         break;
       }
       result=false;
     }
-    if(isMatch && upperCaseFlag) result=this.lowerToUpper(result);
+    if(isMatch)result=this.converted[index];
+    if(isPartialMatch&&!isMatch)result=inputString;
+    if(upperCaseFlag) result=this.lowerToUpper(result);
     return result;
   }
   /*補足:shch⇔щ,sh⇔ш,s⇔сという変換規則がある場合、sやshが入力された時点ではまだユーザーが変換したい文字が一意に決まらない。
@@ -70,10 +64,11 @@ class Converter{
   なお、shやsのような文字列を途中で変換したい場合、ユーザーがスペースキーを入力すると手動で変換するような仕様にしてある。*/
   recursiveSearch(inputString){
     var convertedString=inputString;
-    if(this.isDestination(this.simpleSearch(inputString))||inputString.length===1){
+    if(this.isConverted(this.simpleSearch(inputString))||inputString.length===1){
       convertedString=this.simpleSearch(inputString);
     }else{
-      convertedString=this.recursiveSearch(inputString.slice(0,-1))+this.holdPartialMatch(inputString.substr(-1,1));
+      var matsubi = !this.holdPartialMatch(inputString.substr(-1,1))? inputString.substr(-1,1):holdPartialMatch(inputString.substr(-1,1));
+      convertedString=this.recursiveSearch(inputString.slice(0,-1))+matsubi;
     }
     return convertedString;
   }
@@ -94,9 +89,9 @@ class Converter{
       //console.log("rpm="+resultPartialMatch);//debug
       if(searchChar==="") return convertedText+resultPartialMatch; 
       if(resultPartialMatch===searchString)continue;
-      if(this.isDestination(searchChar)) addString=searchChar;
+      if(this.isConverted(searchChar)) addString=searchChar;
         //console.log("mode1:"+"addString="+addString);//debug
-      if(this.isDestination(resultPartialMatch)) addString=resultPartialMatch;
+      if(this.isConverted(resultPartialMatch)) addString=resultPartialMatch;
         //console.log("Hit:"+"addString="+addString);
       if(resultPartialMatch===false&&!this.isRome(searchChar)) addString=searchString;
         //console.log("mode2:"+"addString="+addString);//debug
@@ -131,16 +126,13 @@ class Converter{
       searchString=searchString+searchChar;
       compareLength=searchString.length;
       var addString="";
-      var resultSimpleSearch=this.simpleSearch(searchString);
       var resultPartialMatch=this.holdPartialMatch(searchString);
-      var resultPartialMatchNext=this.holdPartialMatch(searchString+nextChar);
-      if(this.isDestination(searchChar)){
+      if(this.isConverted(searchChar)){
         addString=searchChar;
-      }else if(searchChar==="" || resultPartialMatchNext===false){
-        addString=resultSimpleSearch;
-      }else if(this.isDestination(resultPartialMatchNext)){
-        addString=resultPartialMatchNext;
-        compareLength++;
+      }else if(searchChar==="" || resultPartialMatch===false){
+        addString=this.recursiveSearch(searchString);
+      }else if(this.isConverted(resultPartialMatch)){
+        addString=resultPartialMatch;
       }else{
         continue;
       }

@@ -67,7 +67,7 @@ class Converter{
     if(this.isConverted(this.simpleSearch(inputString))||inputString.length===1){
       convertedString=this.simpleSearch(inputString);
     }else{
-      var matsubi = !this.holdPartialMatch(inputString.substr(-1,1))? inputString.substr(-1,1):holdPartialMatch(inputString.substr(-1,1));
+      var matsubi = !this.holdPartialMatch(inputString.substr(-1,1))? inputString.substr(-1,1):this.holdPartialMatch(inputString.substr(-1,1));
       convertedString=this.recursiveSearch(inputString.slice(0,-1))+matsubi;
     }
     return convertedString;
@@ -78,36 +78,29 @@ class Converter{
     var searchString="";
     var compareLength=0;
     while(currentPosition < inputText.length){
-      //console.log("loop"+loopNum);
       var searchChar=inputText.substr(currentPosition+compareLength,1);
       searchString=searchString+searchChar;
       compareLength=searchString.length;
       var addString="";
       var resultSimpleSearch=this.simpleSearch(searchString);
-      //console.log("rss="+resultSimpleSearch);//debug
       var resultPartialMatch=this.holdPartialMatch(searchString);
-      //console.log("rpm="+resultPartialMatch);//debug
       if(searchChar==="") return convertedText+resultPartialMatch; 
       if(resultPartialMatch===searchString)continue;
       if(this.isConverted(searchChar)) addString=searchChar;
-        //console.log("mode1:"+"addString="+addString);//debug
       if(this.isConverted(resultPartialMatch)) addString=resultPartialMatch;
-        //console.log("Hit:"+"addString="+addString);
-      if(resultPartialMatch===false&&!this.isRome(searchChar)) addString=searchString;
-        //console.log("mode2:"+"addString="+addString);//debug
-      if(resultPartialMatch===false&&this.isRome(searchChar)){
+      if(!resultPartialMatch && this.isRome(searchChar)){
         if(searchString.length>1){
           addString=this.recursiveSearch(searchString.slice(0,-1));
           compareLength--;
         }else{
           addString=searchString;
         }
-        //console.log("mode3:"+"addString="+addString);//debug
+      }
+      if(!resultPartialMatch && !this.isRome(searchChar)){
+        addString=searchString;
       }
       convertedText=convertedText+addString;
-      //console.log("convertedText="+convertedText);//debug
       currentPosition+=compareLength;
-      //this.resetVal();
       compareLength=0;
       searchString="";
       addString="";
@@ -129,8 +122,11 @@ class Converter{
       var resultPartialMatch=this.holdPartialMatch(searchString);
       if(this.isConverted(searchChar)){
         addString=searchChar;
-      }else if(searchChar==="" || resultPartialMatch===false){
+      }else if(searchChar===""){
         addString=this.recursiveSearch(searchString);
+      }else if(resultPartialMatch===false){
+        addString=searchString.slice(0,1);
+        compareLength=1;
       }else if(this.isConverted(resultPartialMatch)){
         addString=resultPartialMatch;
       }else{

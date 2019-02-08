@@ -2,7 +2,7 @@ class Cyr extends Converter{
   //変換に記号を使うのでisRomeもオーバーライドする
   isRome(str=""){
     var romeMatch = new RegExp("^[A-Za-z\\'\\^]*$");
-    return romeMatch;
+    return romeMatch.test(str) && str!=="";
   }
   isConverted(character){
     if(Object.prototype.toString.call(character)!=="[object String]"&&character.length!==1)return false; var code=character.charCodeAt(0);
@@ -17,8 +17,8 @@ class Cyr extends Converter{
     return String.fromCharCode(lowerCode-32);
   }
 }
-var rome=new Array(40);
-var cyrillic=new Array(40);
+var rome=new Array();
+var cyrillic=new Array();
 rome[0]="shch"; cyrillic[0]="щ" ;
 rome[1]="ye"  ; cyrillic[1]="е" ;
 rome[2]="yo"  ; cyrillic[2]="ё" ;
@@ -52,13 +52,13 @@ rome[29]="u"  ; cyrillic[29]="у";
 rome[30]="f"  ; cyrillic[30]="ф";
 rome[31]="y"  ; cyrillic[31]="ы";
 rome[32]="\'" ; cyrillic[32]="ь";
-rome[33]=".." ; cyrillic[33]="..";
-rome[34]=".." ; cyrillic[34]="..";
-rome[35]=".." ; cyrillic[35]="..";
-rome[36]=".." ; cyrillic[36]="..";
-rome[37]=".." ; cyrillic[37]="..";
-rome[38]=".." ; cyrillic[38]="..";
-rome[39]=".." ; cyrillic[39]="..";
+//rome[33]=".." ; cyrillic[33]="..";
+//rome[34]=".." ; cyrillic[34]="..";
+//rome[35]=".." ; cyrillic[35]="..";
+//rome[36]=".." ; cyrillic[36]="..";
+//rome[37]=".." ; cyrillic[37]="..";
+//rome[38]=".." ; cyrillic[38]="..";
+//rome[39]=".." ; cyrillic[39]="..";
 var charCon=new Cyr(rome,cyrillic);//textboxController.jsで呼び出すインスタンスを生成
 //rome[40]=".." ; cyrillic[40]="..";
 //以下Test

@@ -9,6 +9,7 @@
   top:0px;
   left:0px;
   padding:2px;
+  word-break: break-all;
 }
 #behindInput{
   color:transparent;
@@ -20,6 +21,7 @@
   left:0px;
   padding:2px;
   overflow:auto;
+  word-break: break-all;
 }
 #behindInput span b{
   background: #d8dfea;
@@ -28,6 +30,7 @@
   padding:0px;
   margin:0px;
   font-weight: normal;
+  word-break: break-all;
 }
 .highlighter{
   border: 1px solid #999;
@@ -35,12 +38,7 @@
   display:block;
   font-size   : 16px;
   font-weight: normal;
-  word-break: break-all;
 }
 body{
   background-color: yellow;
-}
-#testheader{
-  font-family : "MS PGothic";
-  font-size   : 32px;
 }

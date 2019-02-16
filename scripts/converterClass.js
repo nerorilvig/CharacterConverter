@@ -72,6 +72,16 @@ class Converter{
     }
     return convertedString;
   }
+  recursiveSimpleSearch(inputString){
+    var convertedString=inputString;
+    if(this.isConverted(this.simpleSearch(inputString))||inputString.length===1){
+      console.log("only 1 character. loop end")
+      convertedString=this.simpleSearch(inputString);
+    }else{
+      convertedString=this.recursiveSimpleSearch(inputString.slice(0,-1))+this.simpleSearch(inputString.substr(-1,1));
+    }
+    return convertedString;
+  }
   autoConvert(inputText){
     var convertedText="";
     var currentPosition=0;
@@ -120,17 +130,16 @@ class Converter{
       compareLength=searchString.length;
       var addString="";
       var resultPartialMatch=this.holdPartialMatch(searchString);
-      if(this.isConverted(searchChar)){
+      if(this.isConverted(searchChar)&&searchString.length===1){
         addString=searchChar;
       }else if(searchChar===""){
-        addString=this.recursiveSearch(searchString);
-      }else if(resultPartialMatch===false){
-        addString=searchString.slice(0,1);
-        compareLength=1;
+        addString=this.recursiveSimpleSearch(searchString);
       }else if(this.isConverted(resultPartialMatch)){
         addString=resultPartialMatch;
-      }else{
+      }else if(resultPartialMatch===searchString){
         continue;
+      }else if(!resultPartialMatch){
+        addString=this.recursiveSimpleSearch(searchString);
       }
       convertedText=convertedText+addString;
       currentPosition+=compareLength;

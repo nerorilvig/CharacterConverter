@@ -21,7 +21,10 @@ ul,li,img{
   display:block;
 }
 
-body{font-size:13px;-webkit-text-size-adjust:none;}
+body{
+  font-size:13px;
+  -webkit-text-size-adjust:none;
+}
 
 img{border:none;}
 li{list-style:none;}

@@ -24,6 +24,13 @@ ul,li,img{
 body{
   font-size:13px;
   -webkit-text-size-adjust:none;
+  background: #ffffff;
+	background: -webkit-linear-gradient(to bottom, #ffffff,#abbaab);
+	background: linear-gradient(to bottom, #ffffff,#abbaab);
+	min-height:100%;
+}
+html{
+	min-height:100%;
 }
 
 img{border:none;}
@@ -128,6 +135,8 @@ h2#top{
   color:#fff;
   font-size:12px;
   padding:5px 0;
+	position:fixed;
+	bottom:0;
 }
 
 #footer a{color:#fff; text-decoration:none;}

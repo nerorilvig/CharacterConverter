@@ -11,7 +11,7 @@
   <link rel="stylesheet" type="text/css" href="stylesheets/highlighter.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="./scripts/converterClass.js"></script>
-  <script src="./scripts/Languages/Cyrillic.js"></script>
+  <script src="<?php echo "./scripts/Languages/Cyrillic.js" //クエリの値で変更できるようにする予定?>"></script>
   <script src="./scripts/symbols.js"></script>
 </head>
 
@@ -26,12 +26,20 @@
 
 
 <div class="container">
+  <p>ページ下部の変換表に従って、入力されたローマ字を<?php echo "キリル文字" //値はクエリで受け取るように変更予定?>に自動変換します</p> 
   <div id="textbox">
     <textarea id="input" class="highlighter" placeholder="convert Rome to Cyrillic! ローマ字をキリル文字に変換します！"></textarea>
     <div id="behindInput" class="highlighter"></div>
   </div>
   <p>自動で変換されない場合はスペースキーで手動変換します。スペースを入力したい時は2回連続でスペースキーを押してください</p>
+  <h2>ローマ字→<?php echo "キリル文字変換表"?></h2>
+  <table>
+    <tbody>
+    
+    </tbody>
+  </table>
 </div>
+
 <!-- 広告ここから -->
 <!-- /広告ここまで -->
 

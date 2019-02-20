@@ -9,6 +9,7 @@
   <link rel="stylesheet" type="text/css" href="../public/stylesheets/default.css">
   <link rel="stylesheet" type="text/css" href="../public/stylesheets/style.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/highlighter.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/table.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="./scripts/converterClass.js"></script>
   <script src="<?php echo "./scripts/Languages/Cyrillic.js" //クエリの値で変更できるようにする予定?>"></script>
@@ -20,7 +21,7 @@
 <header>
   <h1>ローマ字から各国語の文字に変換するアプリ</h1>
   <div id="box_t">
-  <h2 id="top">CharacterConverter</h2>
+  <h2 id="top" href="../index.html">CharacterConverter</h2>
 </header>
 <!-- /ヘッダここまで -->
 
@@ -35,7 +36,7 @@
   <h2>ローマ字→<?php echo "キリル文字変換表"?></h2>
   <table>
     <tbody>
-    
+		<!-- ./scripts/convertTable.jsで動的に生成-->
     </tbody>
   </table>
 </div>

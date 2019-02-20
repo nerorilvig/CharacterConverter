@@ -33,10 +33,10 @@
     <div id="behindInput" class="highlighter"></div>
   </div>
   <p>自動で変換されない場合はスペースキーで手動変換します。スペースを入力したい時は2回連続でスペースキーを押してください</p>
-  <h2>ローマ字→<?php echo "キリル文字変換表"?></h2>
+  <h1>ローマ字→<?php echo "キリル文字変換表"?></h2>
   <table>
     <tbody>
-		<!-- ./scripts/convertTable.jsで動的に生成-->
+    <!-- ./scripts/convertTable.jsで動的に生成-->
     </tbody>
   </table>
 </div>
@@ -58,5 +58,6 @@
 <!-- /フッタここまで -->
 <script src="./scripts/textboxController.js"></script>
 <script src="./scripts/highlighter.js"></script>
+<script src="./scripts/convertTable.js"></script>
 </body>
 </html>

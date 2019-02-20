@@ -1,6 +1,10 @@
+table{
+  margin: 0 auto;
+}
 table, th, td {
+  text-align:center;
   border-collapse: collapse;
-  border: 1px solid #ccc;
+  border: 1px solid #000;
   line-height: 1.5;
 }
 

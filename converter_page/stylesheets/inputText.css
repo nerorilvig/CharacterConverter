@@ -1,3 +1,11 @@
 #copyText{
   margin:5px 0;
+  float:left;
+}
+#notice{
+  margin:5px auto;
+  float:left;
+}
+.clearElement{
+  clear:both;
 }

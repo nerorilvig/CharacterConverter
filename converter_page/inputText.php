@@ -44,7 +44,11 @@
     <div id="behindInput" class="highlighter"></div>
   </div>
   <!--<input type="button" id="copyText" value="クリップボードへコピー" data-clipboard-target="#input">-->
-  <button id="copyText" data-clipboard-target="#input">クリップボードへコピー</button>
+  <div id="buttonAndNotice">
+    <button id="copyText" data-clipboard-target="#input">クリップボードへコピー</button>
+    <p id="notice">...</p>
+  </div>
+  <div class="clearElement"></div>
   <p>自動で変換されない場合はスペースキーで手動変換します。スペースを入力したい時は2回連続でスペースキーを押してください</p>
   <h1>ローマ字→<?php echo "キリル文字"?>変換表</h1>
   <table>

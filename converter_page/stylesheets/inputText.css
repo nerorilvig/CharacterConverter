@@ -1,6 +1,7 @@
 #copyText{
   margin:5px 0;
   float:left;
+  width:200px;
 }
 #notice{
   margin:5px auto;
@@ -8,4 +9,24 @@
 }
 .clearElement{
   clear:both;
+}
+.btn{
+  width: 100%;
+  color: white;
+  margin:5px 0; 
+  border:0px solid;
+  padding:2px 0;
+}
+.btn:hover{
+  transition:0.5s;
+  cursor:pointer;
+  opacity:1.0;
+}
+.btn-tw {
+  background-color: #00aced;
+  opacity:0.8;
+}
+.btn-fb {
+  background-color: #385998;
+  opacity:0.8;
 }

@@ -11,15 +11,16 @@
   <link rel="stylesheet" type="text/css" href="stylesheets/highlighter.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/table.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/inputText.css">
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!--<script src="./scripts/clipboard.js"></script>-->
   <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
-<https:></https:>
-<cdn class="jsdelivr net"></cdn>
-<npm></npm>
-<clipboard></clipboard>
-<dist></dist>
-<clipboard class="min js"></clipboard>
+  <https:></https:>
+  <cdn class="jsdelivr net"></cdn>
+  <npm></npm>
+  <clipboard></clipboard>
+  <dist></dist>
+  <clipboard class="min js"></clipboard>
   <script src="./scripts/converterClass.js"></script>
   <script src="<?php echo "./scripts/Languages/Cyrillic.js" //クエリの値で変更できるようにする予定?>"></script>
   <script src="./scripts/symbols.js"></script>
@@ -44,11 +45,15 @@
     <div id="behindInput" class="highlighter"></div>
   </div>
   <!--<input type="button" id="copyText" value="クリップボードへコピー" data-clipboard-target="#input">-->
-  <div id="buttonAndNotice">
+  <div class="buttonAndNotice">
     <button id="copyText" data-clipboard-target="#input">クリップボードへコピー</button>
     <p id="notice">...</p>
   </div>
   <div class="clearElement"></div>
+  <div class="postButtons">
+    <button class="btn btn-tw"><i class="fa fa-twitter"></i> Twitterへ投稿(未実装)</button>
+    <button class="btn btn-fb"><i class="fa fa-facebook"></i> Facebookへ投稿(未実装)</button>
+  </div>
   <p>自動で変換されない場合はスペースキーで手動変換します。スペースを入力したい時は2回連続でスペースキーを押してください</p>
   <h1>ローマ字→<?php echo "キリル文字"?>変換表</h1>
   <table>

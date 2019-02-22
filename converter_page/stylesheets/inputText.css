@@ -1,5 +1,6 @@
 #copyText{
   margin:5px 0;
+  font-size:16px;
   float:left;
   width:200px;
 }
@@ -12,6 +13,7 @@
 }
 .btn{
   width: 100%;
+  font-size:18px;
   color: white;
   margin:5px 0; 
   border:0px solid;

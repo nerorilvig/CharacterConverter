@@ -41,7 +41,7 @@
 <div class="container">
   <p>ページ下部の変換表に従って、入力されたローマ字を<?php echo "キリル文字" //値はクエリで受け取るように変更予定?>に自動変換します</p> 
   <div id="textbox">
-    <textarea id="input" class="highlighter" placeholder="convert Rome to Cyrillic! ローマ字をキリル文字に変換します！"></textarea>
+    <textarea id="input" class="highlighter" placeholder="ローマ字をキリル文字に変換します！"></textarea>
     <div id="behindInput" class="highlighter"></div>
   </div>
   <!--<input type="button" id="copyText" value="クリップボードへコピー" data-clipboard-target="#input">-->

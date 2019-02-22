@@ -10,10 +10,21 @@
   <link rel="stylesheet" type="text/css" href="../public/stylesheets/style.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/highlighter.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/table.css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/inputText.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--<script src="./scripts/clipboard.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@1/dist/clipboard.min.js"></script>
+<https:></https:>
+<cdn class="jsdelivr net"></cdn>
+<npm></npm>
+<clipboard></clipboard>
+<dist></dist>
+<clipboard class="min js"></clipboard>
   <script src="./scripts/converterClass.js"></script>
   <script src="<?php echo "./scripts/Languages/Cyrillic.js" //クエリの値で変更できるようにする予定?>"></script>
   <script src="./scripts/symbols.js"></script>
+  <script src="./scripts/textcopy.js"></script>
+
 </head>
 
 <body>
@@ -32,8 +43,10 @@
     <textarea id="input" class="highlighter" placeholder="convert Rome to Cyrillic! ローマ字をキリル文字に変換します！"></textarea>
     <div id="behindInput" class="highlighter"></div>
   </div>
+  <!--<input type="button" id="copyText" value="クリップボードへコピー" data-clipboard-target="#input">-->
+  <button id="copyText" data-clipboard-target="#input">クリップボードへコピー</button>
   <p>自動で変換されない場合はスペースキーで手動変換します。スペースを入力したい時は2回連続でスペースキーを押してください</p>
-  <h1>ローマ字→<?php echo "キリル文字変換表"?></h2>
+  <h1>ローマ字→<?php echo "キリル文字"?>変換表</h1>
   <table>
     <tbody>
     <!-- ./scripts/convertTable.jsで動的に生成-->

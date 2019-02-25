@@ -25,6 +25,7 @@
   <script src="<?php echo "./scripts/Languages/Cyrillic.js" //クエリの値で変更できるようにする予定?>"></script>
   <script src="./scripts/symbols.js"></script>
   <script src="./scripts/textcopy.js"></script>
+  <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>-->
 
 </head>
 
@@ -44,14 +45,15 @@
     <textarea id="input" class="highlighter" placeholder="ローマ字をキリル文字に変換します！"></textarea>
     <div id="behindInput" class="highlighter"></div>
   </div>
-  <!--<input type="button" id="copyText" value="クリップボードへコピー" data-clipboard-target="#input">-->
   <div class="buttonAndNotice">
     <button id="copyText" data-clipboard-target="#input">クリップボードへコピー</button>
     <p id="notice">...</p>
   </div>
   <div class="clearElement"></div>
   <div class="postButtons">
-    <button class="btn btn-tw"><i class="fa fa-twitter"></i> Twitterへ投稿(未実装)</button>
+    <a id="twitter" href=""><!--snsPost.jsで動的にリンクを作成-->
+      <button class="btn btn-tw"><i class="fa fa-twitter"></i> Twitterへ投稿</button>
+    </a>
     <button class="btn btn-fb"><i class="fa fa-facebook"></i> Facebookへ投稿(未実装)</button>
   </div>
   <p>自動で変換されない場合はスペースキーで手動変換します。スペースを入力したい時は2回連続でスペースキーを押してください</p>
@@ -81,5 +83,6 @@
 <script src="./scripts/textboxController.js"></script>
 <script src="./scripts/highlighter.js"></script>
 <script src="./scripts/convertTable.js"></script>
+<script src="./scripts/snsPost.js"></script>
 </body>
 </html>
